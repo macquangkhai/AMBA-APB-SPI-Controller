@@ -42,22 +42,22 @@ An **AMBA APB (Advanced Peripheral Bus) Compliant SPI Controller IP Core** desig
 
 ```mermaid
 graph LR
-    subgraph Host System
-        CPU[Host CPU / Bus Master]
+    subgraph "Host System"
+        CPU["Host CPU / Bus Master"]
     end
 
-    subgraph AMBA APB SPI IP Core (Top)
-        APB_Bridge[APB Slave Bridge<br/>spi_apb_bridge.v]
-        Master[SPI Master Core<br/>spi_master.v]
+    subgraph "AMBA APB SPI IP Core (Top)"
+        APB_Bridge["APB Slave Bridge<br/>spi_apb_bridge.v"]
+        Master["SPI Master Core<br/>spi_master.v"]
     end
 
-    subgraph SPI Peripheral
-        Slave[SPI Slave Core<br/>spi_slave.v]
+    subgraph "SPI Peripheral"
+        Slave["SPI Slave Core<br/>spi_slave.v"]
     end
 
-    CPU -- APB Bus<br/>PCLK, PADDR, PWDATA, PRDATA, PSEL, PENABLE, PWRITE --> APB_Bridge
-    APB_Bridge -- Control / Data / clk_div --> Master
-    Master -- Physical Bus<br/>SCK, CS_n, MOSI, MISO --> Slave
+    CPU -- "APB Bus<br/>PCLK, PADDR, PWDATA, PRDATA, PSEL, PENABLE, PWRITE" --> APB_Bridge
+    APB_Bridge -- "Control / Data / clk_div" --> Master
+    Master -- "Physical Bus<br/>SCK, CS_n, MOSI, MISO" --> Slave
 ```
 
 ---
