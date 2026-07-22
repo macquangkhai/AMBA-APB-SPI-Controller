@@ -9,7 +9,7 @@ An **AMBA APB (Advanced Peripheral Bus) Compliant SPI Controller IP Core** desig
 
 ---
 
-## 🌟 Key Features
+## Key Features
 
 ### 1. AMBA APB Slave Bus Protocol Compliance
 * Fully compliant with 32-bit AMBA APB specification handling **Setup Phase** (`PSEL=1, PENABLE=0`) and **Access Phase** (`PSEL=1, PENABLE=1`).
@@ -26,7 +26,7 @@ An **AMBA APB (Advanced Peripheral Bus) Compliant SPI Controller IP Core** desig
 
 ---
 
-## 📋 APB Memory Map & Register Definitions
+## APB Memory Map & Register Definitions
 
 | Offset Address | Register Name | Access Type | Reset Value | Description |
 | :---: | :---: | :---: | :---: | :--- |
@@ -62,7 +62,7 @@ graph LR
 
 ---
 
-## 📊 Verification & Waveform Results
+## Verification & Waveform Results
 
 The testbench (`tb/tb_apb.v`) simulates host CPU APB register write/read tasks and status polling loops.
 
@@ -77,7 +77,7 @@ The testbench (`tb/tb_apb.v`) simulates host CPU APB register write/read tasks a
 
 ---
 
-## 🚀 How to Run Simulation
+## How to Run Simulation
 
 ### Prerequisites
 * EDA Tool: QuestaSim / ModelSim (Intel FPGA Edition or standard).
@@ -95,7 +95,7 @@ The testbench (`tb/tb_apb.v`) simulates host CPU APB register write/read tasks a
 
 ---
 
-## 📂 Repository Structure
+## Repository Structure
 
 ```text
 AMBA-APB-SPI-Controller/
@@ -119,3 +119,14 @@ AMBA-APB-SPI-Controller/
 ## 👤 Author
 
 * **Role:** RTL Design & Verification
+
+<h3>Contact Me</h3>
+<p>
+  <a href="[https://github.com/macquangkhai](https://github.com/macquangkhai)">
+    <img src="https://img.shields.io/badge/GitHub-MacQuangKhai-181717?style=for-the-badge&logo=github&logoColor=white"/>
+  </a>
+  
+  <a href="mailto:khaimac616@gmail.com">
+    <img src="https://img.shields.io/badge/Gmail-khaimac616%40gmail.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white"/>
+  </a>
+</p>
