@@ -118,4 +118,4 @@ AMBA-APB-SPI-Controller/
 
 ## 👤 Author
 
-* **Role:** RTL Design & Verification Engineer
+* **Role:** RTL Design & Verification
