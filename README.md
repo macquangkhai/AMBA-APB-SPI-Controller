@@ -38,7 +38,7 @@ An **AMBA APB (Advanced Peripheral Bus) Compliant SPI Controller IP Core** desig
 
 ---
 
-## 📐 System Architecture
+## System Architecture
 
 ```mermaid
 graph LR
@@ -116,7 +116,7 @@ AMBA-APB-SPI-Controller/
 
 ---
 
-## 👤 Author
+## Author
 
 * **Role:** RTL Design & Verification
 
