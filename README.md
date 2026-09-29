@@ -1,10 +1,5 @@
 # AMBA APB-to-SPI Controller IP Core (Verilog HDL)
 
-![Language](https://img.shields.io/badge/Language-Verilog%20HDL-blue)
-![Bus Interface](https://img.shields.io/badge/Bus%20Interface-AMBA%203%20APB-orange)
-![Toolchain](https://img.shields.io/badge/EDA-QuestaSim%20%7C%20ModelSim-green)
-![Status](https://img.shields.io/badge/Status-Verified-success)
-
 An **AMBA APB (Advanced Peripheral Bus) Compliant SPI Controller IP Core** designed in Verilog HDL for SoC (System-on-Chip) peripheral integration. The IP features a full 32-bit APB Slave Interface bridge (`spi_apb_bridge`), dynamic clock scaling prescaler, and CPU status polling capabilities.
 
 ---
@@ -23,6 +18,12 @@ An **AMBA APB (Advanced Peripheral Bus) Compliant SPI Controller IP Core** desig
 
 ### 4. Status Polling & Busy Flag
 * Host CPU can poll the `READY` bit in `STATUS_REG` over the APB bus to detect transaction completion before reading received data from `RX_REG`.
+
+---
+
+## CDC (Clock Domain Crossing) Handling
+
+To prevent metastability and unintended gated-clock glitches, the design utilizes a **Single-Clock Domain Synchronous Strobe** approach. Instead of generating a physical divided clock, the SPI Master operates entirely on the `PCLK` domain. Dynamic clock scaling is achieved by generating synchronous `sck_rise` and `sck_fall` strobe flags, ensuring 100% data integrity and zero setup/hold violations across clock domains.
 
 ---
 
@@ -59,6 +60,36 @@ graph LR
     APB_Bridge -- "Control / Data / clk_div" --> Master
     Master -- "Physical Bus<br/>SCK, CS_n, MOSI, MISO" --> Slave
 ```
+
+---
+
+## ASIC Physical Design (RTL-to-GDSII)
+
+The IP core was successfully pushed through the complete **Physical Design Flow** using **OpenLane / OpenROAD** and the **SkyWater 130nm PDK**. The flow includes Logic Synthesis, Floorplanning, Power Distribution Network (PDN) Generation, Placement, Clock Tree Synthesis (CTS), Routing, and Signoff.
+
+### PPA Metrics & Signoff Results (Sky130)
+| Metric | Value | Note |
+| :--- | :--- | :--- |
+| **Target Frequency** | 50 MHz | Period: 20 ns |
+| **Die Area** | 0.011 mm² | `89.66 um x 89.80 um` |
+| **Total Cell Count** | 1,062 Cells | 366 standard cells + 696 Tap/Decap/Fill cells |
+| **Total Power** | 306 µW | Typical corner |
+| **STA (Timing Closure)**| WNS = 0.0 ns, TNS = 0.0 ns | Zero Setup/Hold Violations |
+| **Physical Signoff** | **0 DRC / 0 LVS / 0 Antenna** | Magic (DRC) & Netgen (LVS) Clean |
+| **Routing Congestion** | 16.41% | 0 Overflow, 5 Metal Layers Used |
+
+### Layout & CTS Visualization
+
+**Final GDSII Layout (Routing on 5 Metal Layers)**
+<p align="center">
+  <img src="docs/gds_layout.png" alt="GDS Layout" width="80%">
+</p>
+
+**Clock Tree Synthesis (CTS) - H-Tree Topology**
+*(Clock Skew optimized to an ultra-low 0.02 ns)*
+<p align="center">
+  <img src="docs/cts_htree.png" alt="CTS H-Tree" width="80%">
+</p>
 
 ---
 
@@ -101,8 +132,13 @@ The testbench (`tb/tb_apb.v`) simulates host CPU APB register write/read tasks a
 AMBA-APB-SPI-Controller/
 ├── README.md                      # Project documentation
 ├── .gitignore                     # Git ignore rules for EDA build outputs
-├── docs/                          # Waveform screenshots
-│   └── apb_spi_transaction_waveform.png
+├── docs/                          # Waveform and Physical Design screenshots
+│   ├── apb_spi_transaction_waveform.png
+│   ├── cts_htree.png              # CTS Clock Tree visual
+│   └── gds_layout.png             # Final GDSII Layout visual
+├── pd_reports/                    # Physical Design metrics and final GDS
+│   ├── metrics.csv                # OpenLane PPA report
+│   └── spi_apb_top.gds            # Final Tape-out ready GDSII layout
 ├── rtl/                           # Verilog HDL RTL source files
 │   ├── SPI_apb_top.v              # Top-level Wrapper integrating APB Bridge & SPI Master
 │   ├── SPI_apb_bridge.v           # AMBA APB Slave Interface Bridge & Register File
@@ -118,15 +154,4 @@ AMBA-APB-SPI-Controller/
 
 ## Author
 
-* **Role:** RTL Design & Verification
-
-<h3>Contact Me</h3>
-<p>
-  <a href="[https://github.com/macquangkhai](https://github.com/macquangkhai)">
-    <img src="https://img.shields.io/badge/GitHub-MacQuangKhai-181717?style=for-the-badge&logo=github&logoColor=white"/>
-  </a>
-  
-  <a href="mailto:khaimac616@gmail.com">
-    <img src="https://img.shields.io/badge/Gmail-khaimac616%40gmail.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white"/>
-  </a>
-</p>
+* **Role:** RTL Design, Physical Design & Verification Engineer

@@ -30,7 +30,7 @@ module spi_master (
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             clk_cnt <= 0;
-            sck_en  <= 1'b0;
+            sck  <= 1'b0;
         end else begin
             if (sck_en) begin
                 if (clk_cnt == (clk_div/2 - 1)) begin

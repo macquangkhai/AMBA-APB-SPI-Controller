@@ -1,0 +1,54 @@
+module gray2bin (bin, gray);
+input [3:0] gray;
+output [3:0] bin;
+    assign bin[3] = gray[3];
+    assign bin[2] = bin[3]^gray[2];
+    assign bin[1] = bin[2]^gray[1];
+    assign bin[0] = bin[1]^gray[0];
+endmodule
+
+`timescale 1ns / 1ps
+
+module tb_gray2bin;
+
+    // Signal declaration
+    reg  [3:0] gray;
+    wire [3:0] bin;
+
+    // Instantiate Device Under Test (DUT)
+    gray2bin uut (
+        .bin(bin),
+        .gray(gray)
+    );
+
+    // VCD Dump for Waveform viewing (GTKWave, ModelSim, DVE, etc.)
+    initial begin
+        $dumpfile("tb_gray2bin.vcd");
+        $dumpvars(0, tb_gray2bin);
+    end
+
+    // Test Stimulus & Monitoring
+    integer i;
+
+    initial begin
+        $display("==========================================");
+        $display("        SIMULATION TESTBENCH: gray2bin    ");
+        $display("==========================================");
+        $display("  Time | Gray (In) | Binary (Out) ");
+        $display("-------+-----------+--------------");
+
+        gray = 4'b0000;
+        #10;
+
+        for (i = 0; i < 16; i = i + 1) begin
+            gray = i;
+            #10;
+            $display(" %4tns |   4'b%b   |   4'b%b", $time, gray, bin);
+        end
+
+        $display("==========================================");
+        $display(" Simulation Finished.");
+        $finish;
+    end
+
+endmodule
